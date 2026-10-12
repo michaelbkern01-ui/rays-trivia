@@ -38,3 +38,11 @@ Only behaviour/tuning was studied; no code or assets were copied into Trop Shot.
 - Same scale (1 m tiles, 6 cm ball) and same tuning numbers above, simulated in my own fixed-step 2D
   (x/z) engine at 240 Hz; slopes are flat tiles with a constant downhill push.
 - Holes are ASCII tile maps (1 tile = 1 m) with rails auto-built on every open edge.
+
+## v3 (harder holes + secrets)
+- 15 hand-drawn twisty layouts (par 3-5) plus 15 mirrored variants = 30 holes.
+- Ball can now be airborne (y, vy, gravity 9.8, small landing hop, rails ignored above 7 cm).
+- Each hole has one hidden kicker wedge (darker felt with a thin light-blue lip). It only fires if
+  the ball crosses it within 6° of the tee-to-wedge line at >= 88% of full-power pace; it then lofts
+  the ball to land just short of the cup. `node check_holes.js` verifies normal route <= par+1,
+  no 0/1-bank one-shot aces (1° x 4% grid), and that the secret aces.
