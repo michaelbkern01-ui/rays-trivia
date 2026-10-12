@@ -1,33 +1,56 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1"><title>Rays Trivia</title>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1"><meta name="theme-color" content="#092C5C"><title>Rays Trivia</title>
 <style>
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
-body{font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;background:radial-gradient(circle at 50% 0,#14417f,#092C5C 60%,#051a38);color:#fff;min-height:100vh;display:flex;justify-content:center}
-#app{width:100%;max-width:520px;padding:18px;display:flex;flex-direction:column;min-height:100vh;position:relative}
-.top{display:flex;justify-content:space-between;align-items:center;font-weight:700;color:#8FBCE6}
-#mute{background:none;border:2px solid #8FBCE6;color:#fff;border-radius:20px;padding:4px 10px;font-size:18px;cursor:pointer}
-.screen{display:none;flex:1;flex-direction:column;justify-content:center;gap:14px;text-align:center}.on{display:flex}
-h1{font-size:44px;font-weight:900;letter-spacing:2px;color:#F5D130;text-shadow:3px 3px 0 #8FBCE6,6px 6px 0 rgba(0,0,0,.3)}
-.sun{width:150px;height:150px;margin:0 auto;border-radius:50%;background:repeating-conic-gradient(#F5D130 0 10deg,transparent 10deg 30deg);display:flex;align-items:center;justify-content:center;animation:spin 20s linear infinite}
-.sun div{width:80px;height:80px;border-radius:50%;background:#F5D130;box-shadow:0 0 30px #F5D130}
+:root{--navy:#092C5C;--blue:#8FBCE6;--yel:#F5D130}
+body{font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;background:var(--navy);color:#fff;min-height:100vh;display:flex;justify-content:center;overflow-x:hidden}
+body:before{content:"";position:fixed;inset:-50%;background:repeating-conic-gradient(from 0deg at 50% 30%,rgba(245,209,48,.07) 0 6deg,transparent 6deg 18deg);z-index:-2}
+body:after{content:"";position:fixed;left:0;right:0;bottom:0;height:120px;z-index:-1;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 40'%3E%3Cpath d='M0 20q25-18 50 0t50 0 50 0 50 0V40H0z' fill='%238FBCE6' fill-opacity='.25'/%3E%3Cpath d='M0 28q25-14 50 0t50 0 50 0 50 0V40H0z' fill='%238FBCE6' fill-opacity='.35'/%3E%3C/svg%3E") repeat-x bottom/200px 60px}
+#app{width:100%;max-width:520px;padding:16px;display:flex;flex-direction:column;min-height:100vh}
+.top{display:flex;justify-content:space-between;align-items:center;font-weight:800;color:var(--blue)}
+#mute{background:none;border:2px solid var(--blue);color:#fff;border-radius:20px;padding:4px 10px;font-size:18px}
+.screen{display:none;flex:1;flex-direction:column;justify-content:center;gap:12px;text-align:center}.on{display:flex}
+.mark{width:100%;max-width:340px;margin:0 auto;display:block}
+.ball{width:120px;height:120px;margin:0 auto;border-radius:50%;background:#fff;position:relative;box-shadow:0 0 0 6px var(--yel),0 0 40px var(--yel);animation:spin 12s linear infinite}
+.ball:before,.ball:after{content:"";position:absolute;top:8px;bottom:8px;width:60px;border:3px dashed #e0464b;border-radius:50%}.ball:before{left:-34px}.ball:after{right:-34px}
 @keyframes spin{to{transform:rotate(360deg)}}
-.btn{background:#F5D130;color:#092C5C;border:none;border-radius:14px;padding:16px;font-size:22px;font-weight:900;cursor:pointer;box-shadow:0 5px 0 #b8991d}
-.btn:active{transform:translateY(3px);box-shadow:0 2px 0 #b8991d}
-.muted{color:#8FBCE6}
-.bar{height:10px;background:rgba(255,255,255,.15);border-radius:6px;overflow:hidden}#tb{height:100%;background:#F5D130;width:100%}
-#q{font-size:22px;font-weight:700;line-height:1.3;min-height:90px;display:flex;align-items:center;justify-content:center}
-.opt{background:#fff;color:#092C5C;border:3px solid #8FBCE6;border-radius:12px;padding:14px;font-size:18px;font-weight:700;cursor:pointer;text-align:left}
+.btn{background:var(--yel);color:var(--navy);border:none;border-radius:14px;padding:15px;font-size:21px;font-weight:900;box-shadow:0 5px 0 #b8991d;font-family:inherit}
+.btn:active{transform:translateY(3px);box-shadow:0 2px 0 #b8991d}.btn.alt{background:var(--blue);box-shadow:0 5px 0 #5f8db8}
+.muted{color:var(--blue)}
+.board{display:flex;background:#0b0f14;border:3px solid #333;border-radius:10px;padding:6px;gap:6px;box-shadow:inset 0 0 12px #000}
+.board span{flex:1;font-size:11px;color:#bbb;letter-spacing:1px;font-weight:700}
+.board b{display:block;font-family:"Courier New",monospace;font-size:24px;color:#ffb62e;text-shadow:0 0 8px #ff8c00;background:#000;border-radius:4px;margin-top:2px}
+.bar{height:10px;background:rgba(255,255,255,.15);border-radius:6px;overflow:hidden}#tb{height:100%;background:var(--yel);width:100%}
+#q{font-size:21px;font-weight:800;line-height:1.3;min-height:84px;display:flex;align-items:center;justify-content:center}
+.opt{background:#fff;color:var(--navy);border:3px solid var(--blue);border-radius:12px;padding:13px;font-size:17px;font-weight:700;text-align:left;font-family:inherit}
 .opt.ok{background:#3ec46d;color:#fff;border-color:#3ec46d}.opt.bad{background:#e0464b;color:#fff;border-color:#e0464b}
-#fact{min-height:60px;background:rgba(143,188,230,.15);border-left:4px solid #F5D130;border-radius:8px;padding:10px;text-align:left;font-size:15px;visibility:hidden}
-.stats{display:flex;justify-content:space-around;font-weight:800}.stats b{display:block;font-size:24px;color:#F5D130}
-#rating{font-size:30px;font-weight:900;color:#F5D130}
-</style></head><body><div id="app">
+#fact{min-height:56px;background:rgba(143,188,230,.15);border-left:4px solid var(--yel);border-radius:8px;padding:10px;text-align:left;font-size:15px;visibility:hidden}
+#fs{font-size:56px;font-weight:900;color:var(--yel)}
+#rating{font-size:26px;font-weight:900;color:var(--yel)}
+#grid{font-size:22px;letter-spacing:2px}
+.lb{background:rgba(0,0,0,.25);border:2px solid var(--blue);border-radius:12px;padding:10px;text-align:left}
+.lb h3{color:var(--yel);font-size:15px;margin-bottom:6px}.lb ol{padding-left:22px;font-size:15px}.lb li.me{color:var(--yel);font-weight:800}
+.row{display:flex;gap:8px}.row input{flex:1;min-width:0;border-radius:10px;border:2px solid var(--blue);padding:10px;font-size:16px}.row .btn{font-size:16px;padding:10px 14px}
+#cf{position:fixed;inset:0;pointer-events:none;z-index:9}
+</style></head><body><canvas id="cf"></canvas><div id="app">
 <div class="top"><span id="best">Best: 0</span><button id="mute" aria-label="mute">🔔</button></div>
-<div id="s0" class="screen on"><div class="sun"><div></div></div><h1>RAYS<br>TRIVIA</h1><p class="muted">Hard mode · 10 questions · 15 seconds · faster = more points</p><button class="btn" id="go">Rays Up! ▶</button></div>
-<div id="s1" class="screen"><div class="stats"><span>Q<b id="qn">1/10</b></span><span>Score<b id="sc">0</b></span><span>Streak<b id="st">0🔥</b></span></div>
-<div class="bar"><div id="tb"></div></div><div id="q"></div><div id="opts" style="display:flex;flex-direction:column;gap:10px"></div><div id="fact"></div><button class="btn" id="next" style="visibility:hidden">Next ▶</button></div>
-<div id="s2" class="screen"><div class="sun"><div></div></div><div class="muted">Final score</div><h1 id="fs">0</h1><div id="rating"></div><div class="stats"><span>Correct<b id="fc">0</b></span><span>Best streak<b id="fb">0</b></span><span>Best<b id="fbest">0</b></span></div><button class="btn" id="again">Play Again</button></div>
+<div id="s0" class="screen on">
+<svg class="mark" viewBox="0 0 340 150" aria-label="Rays Trivia"><defs><linearGradient id="g" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fff"/><stop offset="1" stop-color="#8FBCE6"/></linearGradient></defs>
+<g transform="translate(250,52)" fill="#F5D130"><circle r="22"/><g stroke="#F5D130" stroke-width="5" stroke-linecap="round"><path d="M0-30V-42M0 30V42M-30 0H-42M30 0H42M21-21l9-9M-21 21l-9 9M21 21l9 9M-21-21l-9-9"/></g></g>
+<text x="150" y="88" text-anchor="middle" font-family="Georgia,serif" font-style="italic" font-weight="900" font-size="82" fill="url(#g)" stroke="#092C5C" stroke-width="3" paint-order="stroke">Rays</text>
+<path d="M40 100q60 -14 140 0t130 -6" stroke="#F5D130" stroke-width="6" fill="none" stroke-linecap="round"/>
+<text x="170" y="138" text-anchor="middle" font-family="system-ui,sans-serif" font-weight="900" font-size="26" letter-spacing="10" fill="#F5D130">TRIVIA</text></svg>
+<div class="ball"></div>
+<p class="muted">Hard mode · 10 questions · 15 sec · faster = more points</p><p class="muted" id="pool" style="font-size:13px"></p><button class="btn" id="go">Rays Up! ▶</button></div>
+<div id="s1" class="screen"><div class="board"><span>INNING<b id="qn">1/10</b></span><span>RUNS<b id="sc">0</b></span><span>STREAK<b id="st">0</b></span></div>
+<div class="bar"><div id="tb"></div></div><div id="q"></div><div id="opts" style="display:flex;flex-direction:column;gap:9px"></div><div id="fact"></div><button class="btn" id="next" style="visibility:hidden">Next ▶</button></div>
+<div id="s2" class="screen"><div class="muted">Final score</div><div id="fs">0</div><div id="rating"></div><div id="grid"></div>
+<div class="board"><span>CORRECT<b id="fc">0</b></span><span>BEST STREAK<b id="fb">0</b></span><span>BEST<b id="fbest">0</b></span></div>
+<div class="row" id="nameRow"><input id="nm" maxlength="14" placeholder="Your name"><button class="btn alt" id="save">Save score</button></div>
+<div class="lb"><h3>🏆 This phone's Top 10</h3><ol id="lbl"></ol></div>
+<div class="row"><button class="btn alt" id="share" style="flex:1">Share 📤</button><button class="btn" id="again" style="flex:1">Play Again</button></div></div>
 </div><script>
 const Q=[
+
 ["Fair fly ball hits the Trop's lowest catwalk (D-Ring). What's the call?",["Home run","Ground-rule double","Dead ball, do-over","In play"],0,"Lower C- and D-Rings are homers; upper A- and B-Rings stay in play."],
 ["A fair pop-up clanks off the Trop's highest catwalk (A-Ring) and a fielder catches it. Call?",["Batter is out","Home run","Dead ball","Ground-rule double"],0,"A- and B-Rings are in play, so a catch is an out."],
 ["Which of these is NOT a Tropicana Field catwalk rule over fair territory?",["Stuck on a catwalk = three bases","Lower C/D-Ring contact = home run","Upper A/B-Ring contact = in play","Stuck on a catwalk = two bases"],0,"A ball that stays on a fair catwalk is two bases, not three."],
@@ -69,7 +92,127 @@ const Q=[
 ["Romo became the first pitcher to start on back-to-back days since which ace did it in 2012?",["Zack Greinke","Justin Verlander","Félix Hernández","Clayton Kershaw"],0,"Greinke had been ejected four pitches into the first of those two starts."],
 ["Who was the first player in franchise history to hit for the cycle?",["B.J. Upton","Carl Crawford","Evan Longoria","Ben Zobrist"],0,"Upton in 2009; Longoria became the second in 2017."],
 ["Larry Rothschild was the first manager after winning a World Series as pitching coach for which team?",["Florida Marlins","Atlanta Braves","New York Yankees","Toronto Blue Jays"],0,"Marlins, 1997."],
-["Who did the Devil Rays take No. 1 overall in the 1999 draft?",["Josh Hamilton","Josh Beckett","Joe Mauer","B.J. Upton"],0,"First high-schooler No. 1 since A-Rod in 1993."]
+["Who did the Devil Rays take No. 1 overall in the 1999 draft?",["Josh Hamilton","Josh Beckett","Joe Mauer","B.J. Upton"],0,"First high-schooler No. 1 since A-Rod in 1993."],
+["Who did the Rays face in the 2008 World Series?",["Philadelphia Phillies","Los Angeles Dodgers","St. Louis Cardinals","Colorado Rockies"],0,"Phillies won in five games."],
+["Who did the Rays beat in the 2008 ALCS?",["Boston Red Sox","New York Yankees","Chicago White Sox","Los Angeles Angels"],0,"Seven games, clinched at the Trop."],
+["Who did the Rays beat in the 2008 ALDS?",["Chicago White Sox","Los Angeles Angels","Minnesota Twins","Boston Red Sox"],0,"3-1, the franchise's first playoff series win."],
+["Who was the 2008 ALCS MVP?",["Matt Garza","B.J. Upton","Evan Longoria","David Price"],0,"Garza won Games 3 and 7."],
+["Game 5 of the 2008 World Series was suspended mid-game because of what?",["Rain","A power outage","A roof leak","Fog"],0,"It resumed two days later; the Phillies clinched."],
+["Who was the Rays' last batter of the 2008 World Series?",["Eric Hinske","Ben Zobrist","Carl Crawford","Dioner Navarro"],0,"Brad Lidge struck him out."],
+["Which Rays starter won the team's only game of the 2008 World Series?",["James Shields","Scott Kazmir","Matt Garza","Andy Sonnanstine"],0,"Game 2, 4-2."],
+["What was the Rays' 2008 regular-season record?",["97-65","95-67","92-70","100-62"],0,"A 31-win jump from 2007."],
+["When did the 'Devil Rays' officially shorten their name to 'Rays'?",["Before the 2008 season","Before the 2006 season","During the 2008 World Series","Before the 2010 season"],0,"Announced November 2007 with new colors."],
+["Who did the Rays face in the 2020 World Series?",["Los Angeles Dodgers","Atlanta Braves","San Diego Padres","Houston Astros"],0,"Dodgers won in six."],
+["Where were the 2020 ALDS and ALCS played?",["Petco Park, San Diego","Dodger Stadium","Globe Life Field","Tropicana Field"],0,"A neutral-site 'bubble' because of COVID."],
+["Who homered off Aroldis Chapman in the 8th to win Game 5 of the 2020 ALDS?",["Mike Brosseau","Randy Arozarena","Brandon Lowe","Manuel Margot"],0,"Rays won 2-1 to eliminate the Yankees."],
+["Who won the 2020 ALCS MVP?",["Randy Arozarena","Manuel Margot","Mike Zunino","Charlie Morton"],0,"He set a rookie postseason HR record."],
+["How many home runs did Randy Arozarena hit in the 2020 postseason, a record?",["10","8","7","12"],0,"Most in a single postseason."],
+["Who started and won Game 7 of the 2020 ALCS?",["Charlie Morton","Tyler Glasnow","Blake Snell","Ryan Yarbrough"],0,"Morton also won Game 7 of the 2017 WS for Houston."],
+["The Rays went up 3-0 in the 2020 ALCS. How many games did it take to finish?",["7","4","5","6"],0,"Houston won three straight before Tampa closed it out."],
+["What was the Rays' record in the shortened 2020 season?",["40-20","38-22","43-17","36-24"],0,"Best in the AL."],
+["Who did the Rays trade to get Randy Arozarena (and José Martínez) from St. Louis?",["Matthew Liberatore","Jose Alvarado","Jake Bauers","Austin Meadows"],0,"January 2020 — a franchise-altering steal."],
+["Which team did Randy Arozarena get traded to in July 2024?",["Seattle Mariners","Texas Rangers","San Diego Padres","Houston Astros"],0,"For three prospects."],
+["What was the Rays' franchise-record win total in 2021?",["100","99","97","102"],0,"100-62, AL East champs."],
+["Who knocked the 2021 Rays out of the ALDS?",["Boston Red Sox","Houston Astros","New York Yankees","Chicago White Sox"],0,"3-1, despite a Game 1 win."],
+["The Rays lost a 15-inning, 1-0 game to end their 2022 Wild Card Series. Opponent?",["Cleveland Guardians","Seattle Mariners","Toronto Blue Jays","Texas Rangers"],0,"Oscar Gonzalez walked it off."],
+["Who swept the Rays in the 2023 Wild Card Series?",["Texas Rangers","Minnesota Twins","Toronto Blue Jays","Houston Astros"],0,"Texas went on to win the World Series."],
+["What was the Rays' 2023 record?",["99-63","100-62","96-66","94-68"],0,"Second-most wins in franchise history."],
+["The Rays' 13-0 start in 2023 tied the modern MLB record shared with which teams?",["1982 Braves and 1987 Brewers","1984 Tigers and 2003 Royals","1998 Yankees and 2001 Mariners","1955 Dodgers and 1966 Indians"],0,"They didn't lose until April 15."],
+["Who won the 2023 AL batting title for the Rays?",["Yandy Díaz","Isaac Paredes","Wander Franco","Harold Ramírez"],0,"He hit .330."],
+["Who did the Rays beat in Game 163 in 2013 to reach the Wild Card game?",["Texas Rangers","Cleveland Indians","Kansas City Royals","Baltimore Orioles"],0,"Then they won the Wild Card game at Cleveland."],
+["Who eliminated the Rays in the 2013 ALDS?",["Boston Red Sox","Detroit Tigers","Oakland A's","Texas Rangers"],0,"Boston went on to win it all."],
+["Who knocked the Rays out of the ALDS in both 2010 and 2011?",["Texas Rangers","New York Yankees","Detroit Tigers","Boston Red Sox"],0,"Texas reached the World Series both years."],
+["In 2019 the Rays won the Wild Card game in which city?",["Oakland","Cleveland","Minneapolis","New York"],0,"Then lost the ALDS to Houston in five."],
+["Which rookie, with one career MLB start, shut out Texas in Game 1 of the 2011 ALDS?",["Matt Moore","Alex Cobb","Jeremy Hellickson","Chris Archer"],0,"Seven scoreless innings."],
+["Who was AL Rookie of the Year in 2011?",["Jeremy Hellickson","Matt Moore","Desmond Jennings","Eric Hosmer"],0,"One of four Rays ROYs (Longoria, Hellickson, Myers, Arozarena)."],
+["Which Ray was NOT an AL Rookie of the Year?",["Carl Crawford","Wil Myers","Jeremy Hellickson","Randy Arozarena"],0,"Crawford never won it."],
+["Who was Evan Longoria's Rookie of the Year year?",["2008","2007","2009","2010"],0,"He'd been called up in April 2008."],
+["Who won the 2012 AL Cy Young for the Rays?",["David Price","James Shields","Fernando Rodney","Matt Moore"],0,"He edged Justin Verlander 153-149 in points."],
+["Fernando Rodney set a record for relievers with 50+ innings in 2012. His ERA?",["0.60","0.92","1.04","0.38"],0,"48 saves too."],
+["Who led the AL in saves in 2017 for the Rays?",["Alex Colomé","Fernando Rodney","Brad Boxberger","Diego Castillo"],0,"47 saves."],
+["Who is the Rays' career home run leader?",["Evan Longoria","Carlos Peña","B.J. Upton","Brandon Lowe"],0,"261 with Tampa Bay."],
+["Who is the Rays' career stolen-base leader?",["Carl Crawford","B.J. Upton","Kevin Kiermaier","Desmond Jennings"],0,"409 steals."],
+["Carl Crawford tied the modern record with how many steals in one game (May 3, 2009)?",["6","5","7","4"],0,"Against Boston."],
+["Carl Crawford was MVP of which All-Star Game?",["2009","2010","2004","2008"],0,"A homer-saving catch in St. Louis."],
+["Who won AL Comeback Player of the Year after hitting 46 homers in 2007?",["Carlos Peña","Jonny Gomes","Jorge Cantú","Cliff Floyd"],0,"A franchise single-season record at the time."],
+["Who was the first pick of the 1997 expansion draft for Tampa Bay?",["Tony Saunders","Bobby Abreu","Quinton McCracken","Rolando Arrojo"],0,"Taken from the Marlins."],
+["Who was the Devil Rays' first All-Star (1998)?",["Rolando Arrojo","Fred McGriff","Wade Boggs","Wilson Álvarez"],0,"A Cuban defector rookie."],
+["Who was the Devil Rays' founding managing general partner?",["Vince Naimoli","Stuart Sternberg","Chuck LaMar","Frank Morsani"],0,"He led the 1995 expansion bid."],
+["Who was the franchise's first general manager?",["Chuck LaMar","Andrew Friedman","Dave Dombrowski","Erik Neander"],0,"From 1995 through 2005."],
+["Tampa Bay was awarded its franchise in March 1995 alongside which team?",["Arizona Diamondbacks","Colorado Rockies","Florida Marlins","Washington Nationals"],0,"Both debuted in 1998."],
+["Put the managers in order: who managed right after Larry Rothschild?",["Hal McRae","Lou Piniella","Joe Maddon","Tom Foley"],0,"McRae took over in 2001."],
+["Which Tampa native managed the Devil Rays 2003-2005?",["Lou Piniella","Tony La Russa","Dave Martinez","Wade Boggs"],0,"Sweet Lou grew up in Tampa."],
+["Joe Maddon left after 2014 using an opt-out and went to which team?",["Chicago Cubs","Los Angeles Angels","Washington Nationals","Atlanta Braves"],0,"He won the 2016 WS there."],
+["Andrew Friedman left the Rays after 2014 to run which team?",["Los Angeles Dodgers","Boston Red Sox","Chicago Cubs","San Francisco Giants"],0,"He later beat Tampa in the 2020 WS."],
+["Kevin Cash's first season as Rays manager?",["2015","2014","2016","2013"],0,"He was 37 when hired."],
+["Guess the year: the Devil Rays lose a franchise-worst 106 games.",["2002","1998","2001","2006"],0,"55-106."],
+["Guess the year: the Rays play the Cuban national team in Havana with President Obama attending.",["2016","2015","2014","2018"],0,"Rays won 4-1 on March 22."],
+["Guess the year: MLB rejects the Rays' Tampa Bay–Montreal 'Sister City' split-season plan.",["2022","2019","2020","2024"],0,"Announced in January 2022."],
+["Guess the year: Wander Franco makes his MLB debut and reaches base 43 straight games.",["2021","2020","2022","2019"],0,"Tied Frank Robinson for longest by a player 21 or younger."],
+["Guess the year: Mark Buehrle throws a perfect game against the Rays, saved by DeWayne Wise's catch.",["2009","2008","2010","2012"],0,"July 23, 2009."],
+["Guess the year: Dallas Braden throws a Mother's Day perfect game against the Rays.",["2010","2009","2011","2012"],0,"May 9, 2010."],
+["Guess the year: Félix Hernández throws a perfect game against the Rays.",["2012","2010","2011","2013"],0,"August 15, 2012 — the 3rd perfecto vs Tampa in four seasons."],
+["Edwin Jackson no-hit the Rays in 2010 while throwing how many pitches?",["149","118","131","162"],0,"He walked eight."],
+["Which team did Matt Garza no-hit in 2010?",["Detroit Tigers","Boston Red Sox","Baltimore Orioles","Seattle Mariners"],0,"July 26, 2010 at the Trop."],
+["Which of these pitchers did NOT throw a perfect game against the Rays?",["Roy Halladay","Mark Buehrle","Dallas Braden","Félix Hernández"],0,"Halladay's perfecto came against the Marlins."],
+["The Rays got Scott Kazmir from the Mets in 2004 for which pitcher?",["Victor Zambrano","Kris Benson","Al Leiter","Steve Trachsel"],0,"Considered one of the Mets' worst trades."],
+["Who led the AL in strikeouts in 2007?",["Scott Kazmir","Johan Santana","Josh Beckett","C.C. Sabathia"],0,"239 Ks."],
+["Who was the No. 1 overall pick in 2007, later a Cy Young winner?",["David Price","Tim Beckham","Matt Moore","Jeremy Hellickson"],0,"From Vanderbilt."],
+["Who was the No. 1 overall pick in 2003?",["Delmon Young","B.J. Upton","Rocco Baldelli","Josh Hamilton"],0,"Later traded to Minnesota for Matt Garza."],
+["Delmon Young was traded to the Twins in a deal that brought back which pitcher?",["Matt Garza","Edwin Jackson","Scott Kazmir","James Shields"],0,"Jason Bartlett came too."],
+["What overall pick was B.J. Upton in 2002?",["2nd","1st","4th","8th"],0,"Out of Greenbrier Christian Academy, Virginia."],
+["The Rays traded Evan Longoria in December 2017 to which team?",["San Francisco Giants","Arizona Diamondbacks","Chicago Cubs","Seattle Mariners"],0,"Christian Arroyo headlined the return."],
+["Blake Snell was traded in December 2020 to which team?",["San Diego Padres","San Francisco Giants","New York Mets","Los Angeles Angels"],0,"For Luis Patiño, Francisco Mejía and two prospects."],
+["Tyler Glasnow was traded to the Dodgers with which outfielder in Dec 2023?",["Manuel Margot","Josh Lowe","Jose Siri","Randy Arozarena"],0,"Ryan Pepiot and Jonny DeLuca came back."],
+["The Rays acquired Nelson Cruz in 2021, sending which pitcher to Minnesota?",["Joe Ryan","Shane Baz","Luis Patiño","Josh Fleming"],0,"Drew Strotman also went to the Twins."],
+["Wander Franco's November 2021 extension was for about how much?",["$182M / 11 years","$100M / 8 years","$250M / 12 years","$130M / 10 years"],0,"Largest in franchise history at the time."],
+["Evan Longoria signed his first long-term extension how far into his MLB career?",["6 days","6 weeks","One full season","Two seasons"],0,"April 2008 — a famously team-friendly deal."],
+["How many Gold Gloves did Kevin Kiermaier win with the Rays?",["3","2","4","5"],0,"2015, 2016 and 2019."],
+["Kevin Kiermaier's nickname?",["The Outlaw","The Wizard","Cowboy","KK Flash"],0,"He was a 31st-round pick in 2010."],
+["Who started the 2010 All-Star Game for the AL?",["David Price","Jon Lester","CC Sabathia","Cliff Lee"],0,"First Ray to start an ASG."],
+["Who started the 2022 All-Star Game for the AL?",["Shane McClanahan","Shohei Ohtani","Gerrit Cole","Framber Valdez"],0,"At Dodger Stadium."],
+["Carlos Peña tied for the AL home run lead in 2009 with whom?",["Mark Teixeira","Alex Rodriguez","Miguel Cabrera","Adam Lind"],0,"39 each."],
+["Which Rays utility star was nicknamed 'Zorilla'?",["Ben Zobrist","Sean Rodriguez","Akinori Iwamura","Jason Bartlett"],0,"Drafted by Houston; acquired in the 2006 Aubrey Huff trade."],
+["Ben Zobrist came to Tampa Bay in a 2006 trade that sent which slugger to Houston?",["Aubrey Huff","Jonny Gomes","Jorge Cantú","Julio Lugo"],0,"Mitch Talbot came too."],
+["Which Hall of Famer's number 12 did the Rays retire?",["Wade Boggs","Fred McGriff","Jose Canseco","Lou Piniella"],0,"Retired in 2000."],
+["Which slugger played for the Devil Rays in 1999-2000 and hit his 400th HR with them?",["Jose Canseco","Greg Vaughn","Vinny Castilla","Ruben Sierra"],0,"Hit No. 400 in April 1999."],
+["Which Tampa native slugger played for the expansion Devil Rays?",["Fred McGriff","Gary Sheffield","Tino Martinez","Dwight Gooden"],0,"McGriff went to Jefferson High in Tampa."],
+["Which museum moved into Tropicana Field in 2006?",["Ted Williams Museum","Negro Leagues Museum","Florida Sports Hall of Fame","Babe Ruth Museum"],0,"The Hitters Hall of Fame came with it."],
+["Where is the Rays' Triple-A affiliate?",["Durham","Montgomery","Charlotte","Norfolk"],0,"The Durham Bulls."],
+["Where is the Rays' spring training home since 2009?",["Port Charlotte","St. Petersburg","Sarasota","Bradenton"],0,"Charlotte Sports Park."],
+["Name the Rays' furry blue mascot.",["Raymond","Stingray Steve","Sunny","Captain Ray"],0,"He's a 'seadog'."],
+["Who has run Rays baseball operations as GM and later president since the mid-2010s?",["Erik Neander","Matt Silverman","Chaim Bloom","James Click"],0,"Silverman was president first; Neander took over baseball ops."],
+["Which Rays exec left in 2019 to run the Red Sox?",["Chaim Bloom","James Click","Erik Neander","Peter Bendix"],0,"Click left for Houston after 2019 too."],
+["Which Rays exec became Marlins president of baseball ops in 2023?",["Peter Bendix","Chaim Bloom","James Click","Matt Arnold"],0,"He had been the Rays' GM."],
+["Which of these did NOT happen in 2008?",["Rays won the World Series","Longoria won Rookie of the Year","Maddon won Manager of the Year","Rays won their first AL East title"],0,"They lost the World Series to Philly."],
+["Which of these did NOT happen in 2011?",["Rays won the AL East","Hellickson won ROY","Longoria walked off Game 162","Matt Moore started an ALDS game"],0,"They were the Wild Card."],
+["Which of these did NOT happen in 2020?",["Rays won the World Series","Arozarena was ALCS MVP","Brosseau homered off Chapman","Rays went 40-20"],0,"Dodgers won in six."],
+["Which of these did NOT happen in 2023?",["Rays won 100 games","Rays started 13-0","Yandy Díaz won the batting title","Rays lost the Wild Card Series to Texas"],0,"They won 99."],
+["Which of these did NOT happen in 2012?",["Rays made the playoffs","Price won the Cy Young","Rodney posted a 0.60 ERA","Félix Hernández threw a perfect game vs Tampa"],0,"90-72 wasn't enough."],
+["Which of these players never played for the Rays?",["Derek Jeter","Hideo Nomo","Nelson Cruz","Charlie Morton"],0,"Nomo pitched for Tampa in 2005."],
+["Which of these Rays was NOT a 1st-overall pick by Tampa Bay?",["Evan Longoria","Josh Hamilton","Delmon Young","Tim Beckham"],0,"Longo went 3rd in 2006."],
+["What was the Rays' record in 2016, the worst of the Cash era?",["68-94","72-90","65-97","75-87"],0,"Last in the AL East."],
+["What was the Rays' 2018 record, the year of the opener?",["90-72","86-76","96-66","84-78"],0,"They still missed the playoffs."],
+["What was the Rays' 2019 record?",["96-66","90-72","100-62","93-69"],0,"Wild Card team."],
+["What was the Rays' 2010 record (AL East champs)?",["96-66","95-67","97-65","92-70"],0,"Second division title in three years."],
+["Who threw the final pitch when the Rays clinched the 2008 pennant?",["David Price","J.P. Howell","Dan Wheeler","Chad Bradford"],0,"Jed Lowrie grounded out."],
+["Which Rays manager regularly used a four-man outfield vs pull-heavy lefties?",["Kevin Cash","Joe Maddon","Lou Piniella","Larry Rothschild"],0,"Cash deployed it often vs pull-heavy lefties."],
+["Who started Game 1 of the 2020 World Series for the Rays?",["Tyler Glasnow","Blake Snell","Charlie Morton","Ryan Yarbrough"],0,"Dodgers won 8-3."],
+["Which catcher homered in Game 7 of the 2020 ALCS?",["Mike Zunino","Michael Pérez","Kevan Smith","Francisco Mejía"],0,"Zunino added a solo shot behind Arozarena's 2-run blast."],
+["Who hit the 1st-inning two-run homer in Game 7 of the 2020 ALCS?",["Randy Arozarena","Mike Zunino","Ji-Man Choi","Brandon Lowe"],0,"Rays won 4-2 to clinch the pennant."],
+["Steinbrenner Field in 2025 is normally the spring home of which team?",["New York Yankees","Toronto Blue Jays","Philadelphia Phillies","Detroit Tigers"],0,"George M. Steinbrenner Field, Tampa."],
+["In 2025, what was notable about the Rays' St. Petersburg stadium deal?",["The Rays backed out of it","It broke ground","It was moved to Tampa","It was expanded to 40,000 seats"],0,"The Rays withdrew in March 2025."],
+["Who agreed to buy the Rays from Stuart Sternberg in 2025?",["Patrick Zalupski's group","Jeff Vinik","Derek Jeter","David Glass"],0,"A Jacksonville homebuilder."],
+["Why was the Rays' 2025 Steinbrenner setup tough on the team?",["Florida summer heat and rain with no roof","No lights for night games","Only 2 dugouts for 3 teams","Artificial turf"],0,"Afternoon heat led to many night games."],
+["Who hit the walk-off homer on the Rays' 2025 Opening Day?",["Kameron Misner","Junior Caminero","Brandon Lowe","Josh Lowe"],0,"First-pitch, bottom of the 9th."],
+["Which young Rays third baseman broke out in 2025 with a franchise-level power season?",["Junior Caminero","Isaac Paredes","Curtis Mead","Jonathan Aranda"],0,"Caminero was one of baseball's top young sluggers."],
+["Tropicana Field's roof was made of what material?",["Teflon-coated fiberglass","Steel panels","Retractable glass","Polycarbonate"],0,"That's why Milton could shred it."],
+["Which Tropicana Field 'ring' catwalk is the highest?",["A-Ring","D-Ring","C-Ring","B-Ring"],0,"A is highest, D lowest."],
+["What surface did the Trop use?",["Artificial turf","Natural grass","Bermuda grass under a sunroof","Clay"],0,"Plus dirt basepaths — rare for turf parks."],
+["Which Ray was nicknamed 'Big Game James'?",["James Shields","James Loney","Jim Hickey","James Russell"],0,"Despite a rough postseason record."],
+["Who was Rays pitching coach for most of the Maddon era?",["Jim Hickey","Kyle Snyder","Dave Eiland","Leo Mazzone"],0,"2007-2017."],
+["Which Rays reliever celebrated saves by shooting an invisible arrow?",["Fernando Rodney","Alex Colomé","Rafael Soriano","Jake McGee"],0,"The 'arrow' became a fan favorite."],
+["Who saved 45 games for the 2010 AL East champs?",["Rafael Soriano","Fernando Rodney","Kyle Farnsworth","Troy Percival"],0,"Rodney topped it with 48 in 2012."]
 ];
 const $=id=>document.getElementById(id);let muted=localStorage.raysMute==='1',AC,best=+localStorage.raysTriviaBest||0;
 function ac(){if(!AC)AC=new(window.AudioContext||window.webkitAudioContext)();return AC}
@@ -80,20 +223,39 @@ function upMute(){$('mute').textContent=muted?'🔕':'🔔'}upMute();
 $('mute').onclick=()=>{muted=!muted;localStorage.raysMute=muted?'1':'0';upMute()};
 const show=n=>[0,1,2].forEach(i=>$('s'+i).classList.toggle('on',i==n));
 const upBest=()=>$('best').textContent='Best: '+best;upBest();
-let set,i,score,streak,maxS,correct,timer,t0,locked;
-function start(){ac();set=[...Q].sort(()=>Math.random()-.5).slice(0,10);i=score=streak=maxS=correct=0;show(1);ask()}
-function ask(){const[q,o,a,f]=set[i];locked=false;$('qn').textContent=(i+1)+'/10';$('sc').textContent=score;$('st').textContent=streak+'🔥';$('q').textContent=q;$('fact').style.visibility='hidden';$('next').style.visibility='hidden';
+// confetti
+const cv=$('cf'),cx=cv.getContext('2d');let parts=[],raf=0;
+function confetti(){cv.width=innerWidth;cv.height=innerHeight;const C=['#F5D130','#8FBCE6','#fff','#092C5C'];for(let k=0;k<70;k++)parts.push({x:cv.width/2,y:cv.height*.45,vx:(Math.random()-.5)*12,vy:-Math.random()*12-4,r:Math.random()*6+3,c:C[k%4],a:Math.random()*6,l:90});if(!raf)loop()}
+function loop(){cx.clearRect(0,0,cv.width,cv.height);parts=parts.filter(p=>p.l-->0);parts.forEach(p=>{p.x+=p.vx;p.y+=p.vy;p.vy+=.4;p.a+=.2;cx.save();cx.translate(p.x,p.y);cx.rotate(p.a);cx.fillStyle=p.c;cx.fillRect(-p.r/2,-p.r/4,p.r,p.r/2);cx.restore()});raf=parts.length?requestAnimationFrame(loop):0;if(!raf)cx.clearRect(0,0,cv.width,cv.height)}
+// no-repeat draw
+function getSeen(){try{return new Set(JSON.parse(localStorage.raysSeen||'[]'))}catch(e){return new Set}}
+const shuf=a=>{for(let k=a.length-1;k>0;k--){const j=Math.random()*(k+1)|0;[a[k],a[j]]=[a[j],a[k]]}return a};
+function draw(){let seen=getSeen();const valid=new Set(Q.map(q=>q[0]));seen=new Set([...seen].filter(t=>valid.has(t)));let fresh=shuf(Q.filter(q=>!seen.has(q[0])));
+if(fresh.length<10){const extra=shuf(Q.filter(q=>seen.has(q[0])));seen=new Set();const pick=fresh.concat(extra.slice(0,10-fresh.length));pick.forEach(q=>seen.add(q[0]));localStorage.raysSeen=JSON.stringify([...seen]);return pick}
+const pick=fresh.slice(0,10);pick.forEach(q=>seen.add(q[0]));localStorage.raysSeen=JSON.stringify([...seen]);return pick}
+function upPool(){const s=getSeen();$('pool').textContent=Q.length+' questions · '+Math.max(0,Q.length-s.size)+' you haven\'t seen yet'}upPool();
+let rank,set,i,score,streak,maxS,correct,timer,t0,locked,res,saved;
+function start(){ac();set=draw();i=score=streak=maxS=correct=0;res=[];saved=false;show(1);ask()}
+function ask(){const[q,o,a,f]=set[i];locked=false;$('qn').textContent=(i+1)+'/10';$('sc').textContent=score;$('st').textContent=streak;$('q').textContent=q;$('fact').style.visibility='hidden';$('next').style.visibility='hidden';
 const ord=o.map((x,k)=>k).sort(()=>Math.random()-.5);$('opts').innerHTML='';
 ord.forEach(k=>{const b=document.createElement('button');b.className='opt';b.textContent=o[k];b.dataset.k=k;b.onclick=()=>pick(k);$('opts').appendChild(b)});
 t0=performance.now();cancelAnimationFrame(timer);tick()}
 function tick(){const left=15-(performance.now()-t0)/1000;$('tb').style.width=Math.max(0,left/15*100)+'%';$('tb').style.background=left<5?'#e0464b':'#F5D130';if(left<=0)return pick(-1);timer=requestAnimationFrame(tick)}
 function pick(k){if(locked)return;locked=true;cancelAnimationFrame(timer);const[,,a,f]=set[i],left=Math.max(0,15-(performance.now()-t0)/1000);
 [...$('opts').children].forEach(b=>{if(+b.dataset.k===a)b.classList.add('ok');else if(+b.dataset.k===k)b.classList.add('bad')});
-if(k===a){streak++;correct++;maxS=Math.max(maxS,streak);const mult=1+Math.min(streak-1,4)*.25;score+=Math.round((100+left/15*100)*mult);cowbell();if(streak>=3)cowbell(.18)}else{streak=0;buzz()}
-$('sc').textContent=score;$('st').textContent=streak+'🔥';$('fact').textContent=(k===a?'✅ ':k<0?'⏰ Time\'s up! ':'❌ ')+f;$('fact').style.visibility='visible';$('next').textContent=i<9?'Next ▶':'See Results';$('next').style.visibility='visible'}
+if(k===a){streak++;correct++;maxS=Math.max(maxS,streak);const mult=1+Math.min(streak-1,4)*.25;score+=Math.round((100+left/15*100)*mult);cowbell();if(streak>=3)cowbell(.18);confetti();res.push('🟩')}else{streak=0;buzz();res.push(k<0?'⏰':'🟥')}
+$('sc').textContent=score;$('st').textContent=streak;$('fact').textContent=(k===a?'✅ ':k<0?'⏰ Time\'s up! ':'❌ ')+f;$('fact').style.visibility='visible';$('next').textContent=i<9?'Next ▶':'See Results';$('next').style.visibility='visible'}
 function next(){if(++i<10)ask();else end()}
-function end(){show(2);$('fs').textContent=score;$('fc').textContent=correct+'/10';$('fb').textContent=maxS;
-$('rating').textContent=correct>=10?'🏆 Trop Legend':correct>=8?'⭐ Catwalk Crusher':correct>=6?'⚾ Touch Tank Regular':correct>=4?'🔔 Bleacher Believer':'🐣 Cowbell Rookie';
-if(score>best){best=score;localStorage.raysTriviaBest=best;$('rating').textContent+=' · NEW BEST!';[0,.2,.4].forEach(cowbell)}upBest();$('fbest').textContent=best}
+function getLB(){try{return JSON.parse(localStorage.raysLB||'[]')}catch(e){return[]}}
+function drawLB(hi){const L=getLB();$('lbl').innerHTML=L.length?'':'<li class="muted">No saved scores yet</li>';L.forEach((e,k)=>{const li=document.createElement('li');li.textContent=e.n+' — '+e.s+' pts ('+e.c+'/10)';if(k===hi)li.className='me';$('lbl').appendChild(li)})}
+function end(){show(2);$('fs').textContent=score;$('fc').textContent=correct+'/10';$('fb').textContent=maxS;$('grid').textContent=res.join('');
+const R=[[10,'🏆','Hall of Rays','Devil Ray Legend. Somewhere Don Zimmer is tipping his cap.'],[8,'⭐','Rays Expert','You could run the front office on a $60M payroll.'],[6,'🔥','Rays Up Diehard','Season-ticket energy. Your cowbell has dents.'],[4,'🔔','Trop Regular','You know the cowbell. You know the catwalks. Mostly.'],[2,'🚌','Bandwagoner','Only shows up for playoff games, huh?'],[0,'🗽','Certified Yankee','Did you take a wrong turn off Dale Mabry? Pinstripes detected.']];
+rank=R.find(r=>correct>=r[0]);$('rating').innerHTML='<div style="font-size:56px">'+rank[1]+'</div><div style="font-size:30px">'+rank[2]+'</div><div class="muted" style="font-size:16px;font-weight:600">'+rank[3]+'</div>';
+if(score>best){best=score;localStorage.raysTriviaBest=best;$('rating').insertAdjacentHTML('beforeend','<div>NEW BEST!</div>');[0,.2,.4].forEach(cowbell);confetti()}upBest();$('fbest').textContent=best;
+$('nm').value=localStorage.raysName||'';$('nameRow').style.display='flex';drawLB(-1);upPool()}
+$('save').onclick=()=>{if(saved)return;const n=($('nm').value.trim()||'Player').slice(0,14);localStorage.raysName=n;const e={n,s:score,c:correct,t:Date.now()};const L=getLB();L.push(e);L.sort((x,y)=>y.s-x.s);const top=L.slice(0,10);localStorage.raysLB=JSON.stringify(top);saved=true;$('nameRow').style.display='none';drawLB(top.indexOf(top.find(x=>x.t===e.t)))};
+$('share').onclick=async()=>{const url=location.href.split('#')[0].split('?')[0];const text='I scored '+correct+'/10 ('+score+' pts) on Rays Trivia ⚾ — '+rank[1]+' '+rank[2]+'\n'+res.join('')+'\nBeat me: '+url;
+try{if(navigator.share){await navigator.share({text});return}}catch(e){if(e.name==='AbortError')return}
+try{await navigator.clipboard.writeText(text);$('share').textContent='Copied! ✅'}catch(e){prompt('Copy this:',text)}setTimeout(()=>$('share').textContent='Share 📤',2000)};
 $('go').onclick=start;$('again').onclick=start;$('next').onclick=next;
 </script></body></html>
