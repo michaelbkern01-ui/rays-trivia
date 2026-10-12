@@ -1,0 +1,99 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1"><title>Rays Trivia</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+body{font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;background:radial-gradient(circle at 50% 0,#14417f,#092C5C 60%,#051a38);color:#fff;min-height:100vh;display:flex;justify-content:center}
+#app{width:100%;max-width:520px;padding:18px;display:flex;flex-direction:column;min-height:100vh;position:relative}
+.top{display:flex;justify-content:space-between;align-items:center;font-weight:700;color:#8FBCE6}
+#mute{background:none;border:2px solid #8FBCE6;color:#fff;border-radius:20px;padding:4px 10px;font-size:18px;cursor:pointer}
+.screen{display:none;flex:1;flex-direction:column;justify-content:center;gap:14px;text-align:center}.on{display:flex}
+h1{font-size:44px;font-weight:900;letter-spacing:2px;color:#F5D130;text-shadow:3px 3px 0 #8FBCE6,6px 6px 0 rgba(0,0,0,.3)}
+.sun{width:150px;height:150px;margin:0 auto;border-radius:50%;background:repeating-conic-gradient(#F5D130 0 10deg,transparent 10deg 30deg);display:flex;align-items:center;justify-content:center;animation:spin 20s linear infinite}
+.sun div{width:80px;height:80px;border-radius:50%;background:#F5D130;box-shadow:0 0 30px #F5D130}
+@keyframes spin{to{transform:rotate(360deg)}}
+.btn{background:#F5D130;color:#092C5C;border:none;border-radius:14px;padding:16px;font-size:22px;font-weight:900;cursor:pointer;box-shadow:0 5px 0 #b8991d}
+.btn:active{transform:translateY(3px);box-shadow:0 2px 0 #b8991d}
+.muted{color:#8FBCE6}
+.bar{height:10px;background:rgba(255,255,255,.15);border-radius:6px;overflow:hidden}#tb{height:100%;background:#F5D130;width:100%}
+#q{font-size:22px;font-weight:700;line-height:1.3;min-height:90px;display:flex;align-items:center;justify-content:center}
+.opt{background:#fff;color:#092C5C;border:3px solid #8FBCE6;border-radius:12px;padding:14px;font-size:18px;font-weight:700;cursor:pointer;text-align:left}
+.opt.ok{background:#3ec46d;color:#fff;border-color:#3ec46d}.opt.bad{background:#e0464b;color:#fff;border-color:#e0464b}
+#fact{min-height:60px;background:rgba(143,188,230,.15);border-left:4px solid #F5D130;border-radius:8px;padding:10px;text-align:left;font-size:15px;visibility:hidden}
+.stats{display:flex;justify-content:space-around;font-weight:800}.stats b{display:block;font-size:24px;color:#F5D130}
+#rating{font-size:30px;font-weight:900;color:#F5D130}
+</style></head><body><div id="app">
+<div class="top"><span id="best">Best: 0</span><button id="mute" aria-label="mute">🔔</button></div>
+<div id="s0" class="screen on"><div class="sun"><div></div></div><h1>RAYS<br>TRIVIA</h1><p class="muted">Hard mode · 10 questions · 15 seconds · faster = more points</p><button class="btn" id="go">Rays Up! ▶</button></div>
+<div id="s1" class="screen"><div class="stats"><span>Q<b id="qn">1/10</b></span><span>Score<b id="sc">0</b></span><span>Streak<b id="st">0🔥</b></span></div>
+<div class="bar"><div id="tb"></div></div><div id="q"></div><div id="opts" style="display:flex;flex-direction:column;gap:10px"></div><div id="fact"></div><button class="btn" id="next" style="visibility:hidden">Next ▶</button></div>
+<div id="s2" class="screen"><div class="sun"><div></div></div><div class="muted">Final score</div><h1 id="fs">0</h1><div id="rating"></div><div class="stats"><span>Correct<b id="fc">0</b></span><span>Best streak<b id="fb">0</b></span><span>Best<b id="fbest">0</b></span></div><button class="btn" id="again">Play Again</button></div>
+</div><script>
+const Q=[
+["Fair fly ball hits the Trop's lowest catwalk (D-Ring). What's the call?",["Home run","Ground-rule double","Dead ball, do-over","In play"],0,"Lower C- and D-Rings are homers; upper A- and B-Rings stay in play."],
+["A fair pop-up clanks off the Trop's highest catwalk (A-Ring) and a fielder catches it. Call?",["Batter is out","Home run","Dead ball","Ground-rule double"],0,"A- and B-Rings are in play, so a catch is an out."],
+["Which of these is NOT a Tropicana Field catwalk rule over fair territory?",["Stuck on a catwalk = three bases","Lower C/D-Ring contact = home run","Upper A/B-Ring contact = in play","Stuck on a catwalk = two bases"],0,"A ball that stays on a fair catwalk is two bases, not three."],
+["Guess the year: Jason Kubel's A-Ring pop-up drops for a go-ahead hit in the 9th, and MLB temporarily makes the upper rings dead balls for the postseason.",["2010","2008","2011","2009"],0,"Twins won 8-6. The A/B-Ring dead-ball tweak lasted that postseason only."],
+["Who hit the first postseason catwalk home run (Game 1, 2008 ALDS)?",["Evan Longoria","Carlos Peña","B.J. Upton","Cliff Floyd"],0,"Longo hit the C-Ring off Javier Vázquez."],
+["Which of these was NEVER an official name of the Trop?",["Bayfront Dome","Florida Suncoast Dome","ThunderDome","Tropicana Field"],0,"Suncoast Dome (1990), ThunderDome (1993), Tropicana Field (1996)."],
+["Before the Rays existed, which team nearly moved into the St. Pete dome until NL owners blocked the sale in 1992?",["San Francisco Giants","Seattle Mariners","Montreal Expos","Oakland A's"],0,"The White Sox had also flirted with the dome earlier."],
+["What color does the Trop's roof light after a Rays home win?",["Orange","Columbia blue","Yellow","Green"],0,"A nod to the juice company behind the naming rights."],
+["Guess the year: owner Stuart Sternberg has SNL's 'More Cowbell' played at the home opener, and fans start clanging.",["2006","2008","2000","2011"],0,"It was Sternberg's first season as principal owner."],
+["Guess the year: DJ Kitty first goes viral on the Trop video board.",["2010","2013","2008","2015"],0,"The spinning-record kitten later became a costumed mascot too."],
+["Who threw the franchise's first pitch (March 31, 1998)?",["Wilson Álvarez","Rolando Arrojo","Tony Saunders","Dennis Springer"],0,"Ball to Detroit's Brian Hunter; Tigers won 11-6."],
+["Who led the 1998 expansion Devil Rays in home runs... with just 19?",["Fred McGriff","Jose Canseco","Paul Sorrento","Wade Boggs"],0,"The Crime Dog also led the club in RBI and walks."],
+["Wade Boggs' 3,000th hit was a home run. Which Cleveland pitcher served it up?",["Chris Haney","Charles Nagy","Bartolo Colón","Dave Burba"],0,"August 7, 1999, at the Trop."],
+["The Rays took Tim Beckham No. 1 in 2008. Which future MVP did they pass on at No. 5?",["Buster Posey","Mike Trout","Paul Goldschmidt","Bryce Harper"],0,"Giants took Posey fifth; Trout went 25th to the Angels."],
+["Where was Evan Longoria drafted in 2006?",["3rd overall","1st overall","11th overall","2nd round"],0,"AL Rookie of the Year two years later."],
+["What was the Devil Rays' record in 2007, the year before the pennant?",["66-96","72-90","61-101","70-92"],0,"Worst in baseball in 2007; 97 wins in 2008."],
+["Joe Maddon's 2008 slogan '9=8' meant what?",["9 players, 9 innings = one of 8 playoff teams","9 starters + 8 relievers","9 wins in the last 8 series","No. 9 hits like a No. 8"],0,"Maddon sold it in spring training."],
+["Which rookie got the final four outs of Game 7 of the 2008 ALCS?",["David Price","Grant Balfour","J.P. Howell","Dan Wheeler"],0,"First career save, including a bases-loaded K of J.D. Drew."],
+["Matt Garza's 2010 no-hitter faced how many batters?",["27","28","29","30"],0,"One walk, erased by a double play. Still the franchise's only 9-inning no-hitter."],
+["Game 162, 2011: how big was the Rays' deficit vs. the Yankees before the comeback?",["7-0","5-0","4-1","9-2"],0,"Six-run 8th, then a 9th-inning tying homer, then Longoria in the 12th."],
+["Who hit the two-out, two-strike pinch-hit homer that tied Game 162 at 7-7?",["Dan Johnson","Sam Fuld","Matt Joyce","Johnny Damon"],0,"He was batting .108 at the time."],
+["Two truths and a lie about Longoria's Game 162 walk-off. Which is the LIE?",["It was off Mariano Rivera","It came in the 12th inning","It was his 2nd homer of the game","It barely cleared the left-field wall"],0,"Rivera never pitched. Scott Proctor gave it up."],
+["What did the Rays get from Kansas City for James Shields and Wade Davis (Dec 2012)?",["Wil Myers, Jake Odorizzi and more","Eric Hosmer and Mike Moustakas","Zack Greinke","Salvador Pérez and Yordano Ventura"],0,"Myers won AL Rookie of the Year the next season."],
+["The 2018 Archer trade brought Glasnow and Meadows. Who was the player to be named later?",["Shane Baz","Mitch Keller","Ke'Bryan Hayes","Taylor Hearn"],0,"Baz arrived about two weeks later."],
+["How many relief appearances had Sergio Romo made before his first career start as the Rays' first 'opener'?",["588","212","401","733"],0,"May 19, 2018. He started the next day too."],
+["Blake Snell's 2018 Cy Young line was which of these?",["21-5, 1.89 ERA","18-7, 2.41 ERA","20-5, 2.56 ERA","16-6, 2.07 ERA"],0,"Fewest innings (180 2/3) for a full-season starter Cy Young at the time. 20-5 / 2.56 was Price in 2012."],
+["Game 6, 2020 World Series: Snell was pulled after how many pitches?",["73","88","95","61"],0,"Nine strikeouts. Nick Anderson came in; Dodgers took the lead."],
+["Which of these did NOT happen on the final play of 2020 World Series Game 4?",["Kenley Jansen threw a wild pitch","Chris Taylor bobbled it in center","Randy Arozarena stumbled rounding third","Brett Phillips singled"],0,"Phillips' single plus Dodger misplays made it 8-7 Rays."],
+["In 2023 the Rays opened 13-0. Which club held the franchise's previous longest win streak?",["The 2004 Devil Rays","The 2008 Rays","The 2021 Rays","The 1999 Devil Rays"],0,"The 2004 club won 12 straight."],
+["Which of these years did the Rays NOT win the AL East?",["2011","2008","2010","2021"],0,"2011 was a Wild Card clinched on Game 162 night."],
+["Who was the first AL manager to win Manager of the Year in back-to-back seasons?",["Kevin Cash","Joe Maddon","Buck Showalter","Terry Francona"],0,"Cash, 2020 and 2021."],
+["Don Zimmer's retired No. 66 stood for what?",["His years in pro baseball","His age when he joined the Rays","His career home runs","The year he debuted"],0,"He bumped the number up by one every season."],
+["Which hurricane tore large sections off Tropicana Field's roof in October 2024?",["Milton","Helene","Ian","Idalia"],0,"Category 3 Milton ripped the Teflon-coated fiberglass panels; Helene had hit the region weeks earlier."],
+["Because of that roof damage, where did the Rays play all their 2025 regular-season home games?",["Steinbrenner Field","Durham Bulls Athletic Park","Tropicana Field with temporary roof","LoanDepot Park"],0,"Yankees spring home in Tampa, capacity about 10,046 for Rays games."],
+["Which of these did NOT happen on the Rays' 2025 Opening Day at Steinbrenner Field?",["It was a rain-shortened 7-inning game","Kameron Misner hit a walk-off homer","Final score was 3-2 over Colorado","It was Misner's first MLB home run"],0,"Misner's first-pitch walk-off made him the first player ever whose first MLB homer was an Opening Day walk-off."],
+["Guess the year: the Rays finish 80-82 and place 4th in the AL East.",["2024","2022","2016","2014"],0,"First sub-.500 finish since 2016 after years of contention."],
+["What was the Rays' 2025 home record at Steinbrenner Field?",["41-40","45-36","38-43","50-31"],0,"Ninth straight winning home season, despite 12 weather delays and zero rainouts."],
+["About how many gallons does the Rays Touch Tank hold?",["10,000","2,500","50,000","100,000"],0,"35-foot tank with the Florida Aquarium, opened July 2006."],
+["Romo became the first pitcher to start on back-to-back days since which ace did it in 2012?",["Zack Greinke","Justin Verlander","Félix Hernández","Clayton Kershaw"],0,"Greinke had been ejected four pitches into the first of those two starts."],
+["Who was the first player in franchise history to hit for the cycle?",["B.J. Upton","Carl Crawford","Evan Longoria","Ben Zobrist"],0,"Upton in 2009; Longoria became the second in 2017."],
+["Larry Rothschild was the first manager after winning a World Series as pitching coach for which team?",["Florida Marlins","Atlanta Braves","New York Yankees","Toronto Blue Jays"],0,"Marlins, 1997."],
+["Who did the Devil Rays take No. 1 overall in the 1999 draft?",["Josh Hamilton","Josh Beckett","Joe Mauer","B.J. Upton"],0,"First high-schooler No. 1 since A-Rod in 1993."]
+];
+const $=id=>document.getElementById(id);let muted=localStorage.raysMute==='1',AC,best=+localStorage.raysTriviaBest||0;
+function ac(){if(!AC)AC=new(window.AudioContext||window.webkitAudioContext)();return AC}
+function tone(f,type,d,v,t0=0){if(muted)return;const c=ac(),o=c.createOscillator(),g=c.createGain(),t=c.currentTime+t0;o.type=type;o.frequency.value=f;g.gain.setValueAtTime(v,t);g.gain.exponentialRampToValueAtTime(.001,t+d);o.connect(g).connect(c.destination);o.start(t);o.stop(t+d)}
+const cowbell=(t=0)=>{tone(587,'square',.35,.15,t);tone(845,'square',.35,.12,t)};
+const buzz=()=>{tone(110,'sawtooth',.45,.2);tone(116,'sawtooth',.45,.2)};
+function upMute(){$('mute').textContent=muted?'🔕':'🔔'}upMute();
+$('mute').onclick=()=>{muted=!muted;localStorage.raysMute=muted?'1':'0';upMute()};
+const show=n=>[0,1,2].forEach(i=>$('s'+i).classList.toggle('on',i==n));
+const upBest=()=>$('best').textContent='Best: '+best;upBest();
+let set,i,score,streak,maxS,correct,timer,t0,locked;
+function start(){ac();set=[...Q].sort(()=>Math.random()-.5).slice(0,10);i=score=streak=maxS=correct=0;show(1);ask()}
+function ask(){const[q,o,a,f]=set[i];locked=false;$('qn').textContent=(i+1)+'/10';$('sc').textContent=score;$('st').textContent=streak+'🔥';$('q').textContent=q;$('fact').style.visibility='hidden';$('next').style.visibility='hidden';
+const ord=o.map((x,k)=>k).sort(()=>Math.random()-.5);$('opts').innerHTML='';
+ord.forEach(k=>{const b=document.createElement('button');b.className='opt';b.textContent=o[k];b.dataset.k=k;b.onclick=()=>pick(k);$('opts').appendChild(b)});
+t0=performance.now();cancelAnimationFrame(timer);tick()}
+function tick(){const left=15-(performance.now()-t0)/1000;$('tb').style.width=Math.max(0,left/15*100)+'%';$('tb').style.background=left<5?'#e0464b':'#F5D130';if(left<=0)return pick(-1);timer=requestAnimationFrame(tick)}
+function pick(k){if(locked)return;locked=true;cancelAnimationFrame(timer);const[,,a,f]=set[i],left=Math.max(0,15-(performance.now()-t0)/1000);
+[...$('opts').children].forEach(b=>{if(+b.dataset.k===a)b.classList.add('ok');else if(+b.dataset.k===k)b.classList.add('bad')});
+if(k===a){streak++;correct++;maxS=Math.max(maxS,streak);const mult=1+Math.min(streak-1,4)*.25;score+=Math.round((100+left/15*100)*mult);cowbell();if(streak>=3)cowbell(.18)}else{streak=0;buzz()}
+$('sc').textContent=score;$('st').textContent=streak+'🔥';$('fact').textContent=(k===a?'✅ ':k<0?'⏰ Time\'s up! ':'❌ ')+f;$('fact').style.visibility='visible';$('next').textContent=i<9?'Next ▶':'See Results';$('next').style.visibility='visible'}
+function next(){if(++i<10)ask();else end()}
+function end(){show(2);$('fs').textContent=score;$('fc').textContent=correct+'/10';$('fb').textContent=maxS;
+$('rating').textContent=correct>=10?'🏆 Trop Legend':correct>=8?'⭐ Catwalk Crusher':correct>=6?'⚾ Touch Tank Regular':correct>=4?'🔔 Bleacher Believer':'🐣 Cowbell Rookie';
+if(score>best){best=score;localStorage.raysTriviaBest=best;$('rating').textContent+=' · NEW BEST!';[0,.2,.4].forEach(cowbell)}upBest();$('fbest').textContent=best}
+$('go').onclick=start;$('again').onclick=start;$('next').onclick=next;
+</script></body></html>
